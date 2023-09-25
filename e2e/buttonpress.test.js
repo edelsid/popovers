@@ -49,9 +49,8 @@ describe('Button press test', () => {
     await page.waitForSelector('.popoverArea');
 
     await btn.click();
-    const element = page.$('.popoverArea');
 
-    await element === null;
+    await page.waitForSelector('.popoverArea', { hidden: true });
   });
 
   afterEach(async () => {
