@@ -1,13 +1,15 @@
 import puppeteer from 'puppeteer';
 import { fork } from 'child_process';
 
+jest.setTimeout(30000);
+
 describe('Button press test', () => {
   let browser = null;
   let page = null;
   let server = null;
   const baseUrl = 'http://localhost:8080';
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     server = fork(`${__dirname}/e2e.server.js`);
     await new Promise((resolve, reject) => {
       server.on('error', reject);
@@ -35,9 +37,13 @@ describe('Button press test', () => {
     await btn.click();
 
     await page.waitForSelector('.popoverArea');
+
+    await btn.click();
+
+    await page.waitForFunction(() => !document.querySelector('.popoverArea'));
   });
 
-  test('popup deletion', async () => {
+  /* test('popup deletion', async () => {
     await page.goto(baseUrl);
     await page.waitForSelector('.popover');
 
@@ -49,9 +55,9 @@ describe('Button press test', () => {
     await btn.click();
 
     await page.waitForFunction(() => !document.querySelector('.popoverArea'));
-  }, 30000);
+  }, 30000); */
 
-  afterEach(async () => {
+  afterAll(async () => {
     await browser.close();
     server.kill();
   });
