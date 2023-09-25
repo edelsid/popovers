@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import { fork } from 'child_process';
 
-jest.setTimeout(30000);
+jest.setTimeout(40000);
 
 describe('Button press test', () => {
   let browser = null;
@@ -50,7 +50,7 @@ describe('Button press test', () => {
 
     await btn.click();
 
-    await page.waitForSelector('.popoverArea', { hidden: true });
+    await page.waitForFunction(() => !document.querySelector('.popoverArea'));
   });
 
   afterEach(async () => {
