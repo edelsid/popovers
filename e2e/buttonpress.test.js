@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import { fork } from 'child_process';
 
-jest.setTimeout(40000);
+jest.setTimeout(30000);
 
 describe('Button press test', () => {
   let browser = null;
@@ -21,7 +21,7 @@ describe('Button press test', () => {
     });
 
     browser = await puppeteer.launch({
-      headless: 'new',
+      headless: false,
       slowMo: 100,
       devtools: true,
     });
@@ -37,8 +37,6 @@ describe('Button press test', () => {
     await btn.click();
 
     await page.waitForSelector('.popoverArea');
-
-    await page.waitForTimeout(4000);
   });
 
   test('popup deletion', async () => {
@@ -51,8 +49,9 @@ describe('Button press test', () => {
     await page.waitForSelector('.popoverArea');
 
     await btn.click();
+    const element = page.$('.popoverArea');
 
-    await page.waitForTimeout(4000);
+    await element === null;
   });
 
   afterEach(async () => {
